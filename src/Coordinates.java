@@ -99,7 +99,7 @@ public class Coordinates extends JFrame {
                 point.add((double)e.getX());
                 for (int i = 0; i < points.length; i++) {
                    System.out.println(points[i]);
-
+//GH
                 }
                 values.add((double)e.getY());
                 for (int i = 0; i < val_faunc.length; i++) {
