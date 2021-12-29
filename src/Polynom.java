@@ -65,7 +65,7 @@ public class Polynom {
         }
         return new Polynom(result);
     }
-    public String ToString() {// взято полностью у Сонечки, как же лень думать://
+    public String ToString() {
         String result="";
 
         if(Coeff.length==1){
@@ -171,24 +171,39 @@ public class Polynom {
      public static double[] l_k_znam(double points[]){
         double[] l_k_zman=new double[points.length];
         for (int k=1;k< points.length;k++){
+            l_k_zman[k] = 1;
             for (int j=1;j< points.length;j++){
-                if (j!=k){
-                    l_k_zman[k]=1/(points[k]-points[j]);
+                if (k!=j){
+                    l_k_zman[k]*=(points[k]-points[j]);
                 }
             }
 
         } return l_k_zman;
      }
+    public static Polynom[] numerator(double[] points) { // вычисление всех числителей (x-x1)..(x-x_j-1)(x-x_j+1)..
+        Polynom[] smpols = Polynom.l_k_chislit(points); // все (x-x_k)
+        Polynom[] numerators = new Polynom[points.length];
+        for (int i = 0; i < points.length; i++) {
+            numerators[i] = new Polynom(new double[]{1});
+            for (int j = 0; j < points.length; j++) {
+                if (i != j) {
+                    numerators[i] = Polynom.mult(numerators[i], smpols[j]);
+                }
+            }
+        }
+        return numerators;
+    }
 
     public static Polynom[] l_k(double points[]){
-        Polynom[] l_k=new Polynom[points.length];
-       // Polynom mul=new Polynom(l_k_znam(points));
+        Polynom[] num=  Polynom.numerator(points);
+        double[] znam= Polynom.l_k_znam(points);
+        Polynom[] lagr = new Polynom[points.length];
         for (int k=1;k<points.length;k++){
-            l_k[k]=Polynom.mult_dig(l_k_chislit(points)[k],l_k_znam(points)[k]);
-        } return l_k;
+            lagr[k]=mult_dig(num[k],1 / znam[k]);
+        } return lagr;
     }
-     public static Polynom Coeff_Lagr(double[] points,double[] val_func){
-        /* double[] points;
+     public static Polynom Coeff_Lagr(){
+        double[] points;
          double[] val_func;
          System.out.println("Enter space-separated points: ");
          Scanner reader =new Scanner(System.in);
@@ -210,13 +225,14 @@ public class Polynom {
          for(int i=0;i< value_string.length;i++){
              val_func[i]=Double.parseDouble(value_string[i]);
              //System.out.println(val_func[i]);
-         }*/
+         }
          xException(points);
          checkDimensions(points, val_func);
-         Polynom larg= new Polynom(new double[]{0});
+         Polynom[] lagr = Polynom.l_k(points);
+         Polynom lagrPol = new Polynom(new double[]{0});
          for (int k=1;k<points.length;k++){
-             larg=Polynom.sum(Polynom.mult_dig(l_k(points)[k],val_func[k]),larg);
-         }return larg;
+             lagrPol= Polynom.sum(Polynom.mult_dig(lagr[k],val_func[k]),lagrPol);
+         }return lagrPol;
      }
      public static double Value_Larg(double x,double[] points, double[] val_func){
          double sum_pol=0;

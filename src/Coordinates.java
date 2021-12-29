@@ -106,7 +106,7 @@ public class Coordinates extends JFrame {
                     System.out.println(val_faunc[i]+"---");
 
                 }
-                Polynom.Coeff_Lagr(points, val_faunc);
+               // Polynom.Coeff_Lagr(points, val_faunc);
 
             }
 
