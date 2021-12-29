@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 public class Main {
+
     public static void main(String[] args) {
        Polynom a = new Polynom(new double[]{2,3,5});
         Polynom b = new Polynom(new double[]{1,4});

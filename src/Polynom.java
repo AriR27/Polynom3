@@ -55,6 +55,7 @@ public class Polynom {
                     return c;
       }
 
+
     public static Polynom mult(Polynom a, Polynom b) { //умножение многочленов
         int size = a.Coeff.length+b.Coeff.length-1;
         double[] result = new double[size];

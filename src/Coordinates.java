@@ -138,7 +138,6 @@ public class Coordinates extends JFrame {
         });
 
 
-
     }
     public ArrayList<Double> addX(double x) {
         pointsX.add(x);
