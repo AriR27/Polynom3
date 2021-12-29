@@ -8,6 +8,8 @@ import java.util.List;
 // +сделать рефреш
 // + анимация рисовки по точкам
 public class Coordinates extends JFrame {
+    ArrayList<Double> pointsX = new ArrayList<Double>();
+    ArrayList<Double> pointsY = new ArrayList<Double>();
     public static void main(String[] arg){
         new Coordinates();
     }
@@ -92,10 +94,14 @@ public class Coordinates extends JFrame {
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {//нажали и отпустили
-                System.out.println("Screen_X: " + e.getX());
+                /*System.out.println("Screen_X: " + e.getX());
                 System.out.println("Screen_Y: " + e.getY());
                 Transformation_of_Coordinates_X(e.getX(),Panel);
-               Transformation_of_Coordinates_Y(e.getY(),Panel);
+               Transformation_of_Coordinates_Y(e.getY(),Panel);*/
+                double xCart = (e.getX() - getWidth() * 1.0 / 2) / n;
+                double yCart = (getHeight() * 1.0 / 2 - e.getY()) / n;
+                addX(xCart);
+                addY(yCart);//добавляем новые точки для построения полинома
                 point.add((double)e.getX());
                 for (int i = 0; i < points.length; i++) {
                    System.out.println(points[i]);
@@ -133,6 +139,20 @@ public class Coordinates extends JFrame {
 
 
 
+    }
+    public ArrayList<Double> addX(double x) {
+        pointsX.add(x);
+        return pointsX;
+    }
+
+    public ArrayList<Double> addY(double y) {
+        pointsY.add(y);
+        return pointsY;
+    }
+
+    public double[] arrayToDouble(ArrayList<Double> coordinates) { //из arraylis в массив чтобы вычислить полином
+        double[] coord = coordinates.stream().mapToDouble(i -> i).toArray();
+        return coord;
     }
     public void paint(Graphics g){
         super.paint(g);
